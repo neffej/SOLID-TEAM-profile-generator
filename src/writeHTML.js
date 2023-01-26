@@ -8,7 +8,11 @@ const content = `<!DOCTYPE html>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!-- Bootstrap (Bootswatch v.superhero) -->
         <link rel="stylesheet" href="https://bootswatch.com/5/superhero/bootstrap.min.css">
+
+        <!--Helper CSS sheet-->
         <link rel="stylesheet" href="./style.css">
+
+        <!--Font Awesome script-->
         <script src="https://kit.fontawesome.com/0113bdb18a.js" crossorigin="anonymous"></script>
         <title>Employee Profiles</title>         
     </head>

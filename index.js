@@ -10,11 +10,10 @@ const Intern = require('./lib/Intern')
 const Manager = require('./lib/Manager')
 
 // Import HTML & CSS templates
-// const writeHTML = require('./src/writeHTML');
-// const writeCSS = require('./src/writeCSS');
 const addEngineerCard = require('./src/addEngineerCard');
 const addManagerCard = require('./src/addManagerCard');
 const addInternCard = require('./src/addInternCard');
+const wrapProfileCards = require('./src/wrapProfileCards')
 
 // Create empty team array
 const team = []
@@ -23,7 +22,7 @@ const team = []
 const addMngr = [
     {
         type: 'confirm',
-        name: 'role',
+        name: 'begin',
         message: "Hail, the creation of a new team is nigh! Are you ready to build?"
     },
     {
@@ -63,7 +62,7 @@ const addEngnr = [
     },    
     {
         type: 'input',
-        name: 'ID',
+        name: 'id',
         message: "What is the engineer's ID?"
     },
     {
@@ -93,7 +92,7 @@ const addIntern = [
     },    
     {
         type: 'input',
-        name: 'ID',
+        name: 'id',
         message: "What is the intern's ID?"
     },
     {
@@ -131,29 +130,35 @@ function query(array){
     .catch((err) => console.log(err));
 }
 
+
 // Render Employee profile cards onto HTML page
 function renderProfiles(team)   {
+    console.log(team);
 
-    // Copy team array and overwrite Employee class with role specific class
+    // Copy team array
     const profiles = team.map((member) => {
+        // destructure 'member' input
         const { name, id, email } = member;
+        console.log(member)
 
+        // HasOwnProperty method searches object for specified property and returns 'true' if that property is it's own, rather than inherited.
+        // If the value is true, then function instantiates a new Employee of the corresponding subclass
         if (member.hasOwnProperty('officeNumber')){
             const { officeNumber } = member;
             return new Manager(name, id, email, officeNumber);
         }
 
         if (member.hasOwnProperty('github')){
-            const { officeNumber } = member;
-            return new Manager(name, id, email, officeNumber);
+            const { github } = member;
+            return new Engineer(name, id, email, github);
         }
 
         if (member.hasOwnProperty('school')){
-            const { officeNumber } = member;
-            return new Manager(name, id, email, officeNumber);
+            const { school } = member;
+            return new Intern(name, id, email, school);
         }
     });
-
+    console.log(profiles);
     generateHTML(profiles);
 }
 
@@ -161,30 +166,33 @@ function renderProfiles(team)   {
 function generateHTML(profiles){
     let profileCards = '';
 
-    // Differentiate profiles by their class and write appropriate card
+    // Differentiate profiles by their class and write appropriate card. Instanceof returns true if specified proeprty is in the object; thus the usefulness of getRole() in helper .js files
+    // add***Card are helper files with template literals for HTML cards
     profiles.forEach((profile)=> {
         if (profile instanceof Manager){
-            const card = managerCard(profile);
+            const card = addManagerCard(profile);
             profileCards += card;
         }else if (profile instanceof Engineer){
-            const card = engineerCard(profile);
+            const card = addEngineerCard(profile);
             profileCards += card;
         }else if (profile instanceof Intern){
-            const card = internCard(profile);
+            const card = addInternCard(profile);
             profileCards += card;
         }
     })
 
+    // wrapProfileCards is helper file with a Template Literal for the HTML page
 const newHTML = wrapProfileCards(profileCards);
 
 writeHTML(newHTML);
 };
 
 function writeHTML(newHTML){
-    fs.writeFile('./dist/MyTeam.html'.newHTML, (err) => {
+    fs.writeFile('./dist/MyTeam.html',newHTML, (err) => {
         if (err) throw err;
         console.log('HTML document successfully created in the /dist folder');
     });
 };
 
-
+// Initialize application
+query(addMngr);
