@@ -28,7 +28,7 @@ const wrapProfileCards = (cards) =>
     <!--Card Container-->
     <main>
         <div class = 'container'>
-            <div clas="row d-flex justify-content-center align-items-center">
+            <div class="row d-flex justify-content-center align-items-center">
             ${cards}
             </div>
 
