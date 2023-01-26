@@ -13,37 +13,58 @@ const Manager = require('./lib/Manager')
 const addEngineerCard = require('./src/addEngineerCard');
 const addManagerCard = require('./src/addManagerCard');
 const addInternCard = require('./src/addInternCard');
-const wrapProfileCards = require('./src/wrapProfileCards')
+const wrapProfileCards = require('./src/wrapProfileCards');
+const { validate } = require('@babel/types');
+const { number } = require('yargs');
 
 // Create empty team array
 const team = []
 
 // Manager question array
-const addMngr = [
+const addManager = [
     {
         type: 'confirm',
         name: 'begin',
         message: "Hail, the creation of a new team is nigh! Are you ready to build?"
+        
     },
     {
         type: 'input',
         name: 'name',
-        message: "Please enter the name of the manager: "
+        message: "Please enter the name of the manager: ",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter a name."
+            }
+            return true
+        }
     },
     {
         type: 'input',
         name: 'id',
-        message: "Please enter manager's employee ID: "
+        message: "Please enter manager's employee ID: ",
     },
     {
         type: 'input',
         name: 'email',
-        message: "Please enter manager's email address: "
+        message: "Please enter manager's email address: ",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter an email."
+            }
+            return true
+        }
     },
     {
         type: 'input',
         name: 'officeNumber',
-        message: "Please enter manager's office number: "
+        message: "Please enter manager's office number: ",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter a number."
+            }
+            return true
+        }
     },
     {
         type: 'list',
@@ -54,26 +75,50 @@ const addMngr = [
 ]
 
 // Engineer question array
-const addEngnr = [
+const addEngineer = [
     {
         type: 'input',
         name: 'name',
-        message: "What is the engineer's name?"
+        message: "What is the engineer's name?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter a name."
+            }
+            return true
+        }
     },    
     {
         type: 'input',
         name: 'id',
-        message: "What is the engineer's ID?"
+        message: "What is the engineer's ID?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter an ID."
+            }
+            return true
+        }
     },
     {
         type: 'input',
         name: 'email',
-        message: "What is the engineer's email?"
+        message: "What is the engineer's email?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter an email address."
+            }
+            return true
+        }
     },
     {
         type: 'input',
         name: 'github',
-        message: "What is the engineer's github username?"
+        message: "What is the engineer's github username?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter a github account."
+            }
+            return true
+        }
     },
     {
         type: 'list',
@@ -88,22 +133,46 @@ const addIntern = [
     {
         type: 'input',
         name: 'name',
-        message: "What is the intern's name?"
+        message: "What is the intern's name?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter a name."
+            }
+            return true
+        }
     },    
     {
         type: 'input',
         name: 'id',
-        message: "What is the intern's ID?"
+        message: "What is the intern's ID?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter an ID."
+            }
+            return true
+        }
     },
     {
         type: 'input',
         name: 'email',
-        message: "What is the intern's email?"
+        message: "What is the intern's email?",
+        validate (answer) {
+            if (!answer){
+                return "So mysterious! That won't do - please enter an email."
+            }
+            return true
+        }
     },
     {
         type: 'input',
         name: 'school',
-        message: "What is the intern's school?"
+        message: "What is the intern's school?",
+        validate (answer) {
+            if (!answer){
+                return "You can't be an intern without a school! Please credit the institution here."
+            }
+            return true
+        }
     },
     {
         type: 'list',
@@ -120,7 +189,7 @@ function query(array){
         team.push(member);
 
         if (member.next === 'Add Engineer'){
-            query(addEngnr);
+            query(addEngineer);
         }else if(member.next === 'Add Intern'){
             query(addIntern);
         }else{
@@ -195,4 +264,4 @@ function writeHTML(newHTML){
 };
 
 // Initialize application
-query(addMngr);
+query(addManager);
