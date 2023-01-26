@@ -5,17 +5,16 @@ const inquirer = require('inquirer');
 
 // Import Classes
 const Employee = require('./lib/Employee');
-// const Engineer = require('./lib/Engineer')
-// const Intern = require('./lib/Intern')
-// const Manager = require('./lib/Manager')
+const Engineer = require('./lib/Engineer')
+const Intern = require('./lib/Intern')
+const Manager = require('./lib/Manager')
 
 // Import HTML & CSS templates
-const writeHTML = require('./src/writeHTML');
-const writeCSS = require('./src/writeCSS');
-const addEmployeeCard = require('./src/addEmployeeCard');
-const { assertTSAnyKeyword } = require('@babel/types');
-const { profile } = require('console');
-
+// const writeHTML = require('./src/writeHTML');
+// const writeCSS = require('./src/writeCSS');
+const addEngineerCard = require('./src/addEngineerCard');
+const addManagerCard = require('./src/addManagerCard');
+const addInternCard = require('./src/addInternCard');
 
 // Create empty team array
 const team = []
@@ -116,7 +115,6 @@ const addIntern = [
 ]
 
 // Initialize user input
-
 function query(array){
     inquirer.prompt(array)
     .then((member) =>{
@@ -155,6 +153,7 @@ function renderProfiles(team)   {
             return new Manager(name, id, email, officeNumber);
         }
     });
+
     generateHTML(profiles);
 }
 
@@ -165,16 +164,27 @@ function generateHTML(profiles){
     // Differentiate profiles by their class and write appropriate card
     profiles.forEach((profile)=> {
         if (profile instanceof Manager){
-            const card = addManagerCard(profile);
+            const card = managerCard(profile);
             profileCards += card;
         }else if (profile instanceof Engineer){
-            const card = addEngineerCard(profile);
+            const card = engineerCard(profile);
             profileCards += card;
         }else if (profile instanceof Intern){
-            const card = addInternCard(profile);
+            const card = internCard(profile);
             profileCards += card;
         }
     })
-}
+
+const newHTML = wrapProfileCards(profileCards);
+
+writeHTML(newHTML);
+};
+
+function writeHTML(newHTML){
+    fs.writeFile('./dist/MyTeam.html'.newHTML, (err) => {
+        if (err) throw err;
+        console.log('HTML document successfully created in the /dist folder');
+    });
+};
 
 
