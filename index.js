@@ -200,18 +200,16 @@ function query(array){
 }
 
 
-// Render Employee profile cards onto HTML page
+// Render Employee profile cards onto HTML page. Uses team array that was populated with Inquirer responses.
 function renderProfiles(team)   {
-    console.log(team);
 
     // Copy team array
+    // Destructure each object in the array to pull out name, id and email values.
     const profiles = team.map((member) => {
-        // destructure 'member' input
         const { name, id, email } = member;
-        console.log(member)
 
-        // HasOwnProperty method searches object for specified property and returns 'true' if that property is it's own, rather than inherited.
-        // If the value is true, then function instantiates a new Employee of the corresponding subclass
+        // HasOwnProperty method searches object for specified property and returns 'true' if that property is its own, rather than inherited.
+        // If the value is true, then function: a) destructures the specified property, then b) instantiates a new Employee of the corresponding subclass
         if (member.hasOwnProperty('officeNumber')){
             const { officeNumber } = member;
             return new Manager(name, id, email, officeNumber);
@@ -227,7 +225,6 @@ function renderProfiles(team)   {
             return new Intern(name, id, email, school);
         }
     });
-    console.log(profiles);
     generateHTML(profiles);
 }
 
@@ -250,17 +247,20 @@ function generateHTML(profiles){
         }
     })
 
-    // wrapProfileCards is helper file with a Template Literal for the HTML page
+// wrapProfileCards is helper file with a Template Literal for the HTML page
 const newHTML = wrapProfileCards(profileCards);
 
-writeHTML(newHTML);
-};
 
+// This function writes a new HTML document into the specified filepath using the variable declared above.
 function writeHTML(newHTML){
     fs.writeFile('./dist/MyTeam.html',newHTML, (err) => {
         if (err) throw err;
         console.log('HTML document successfully created in the /dist folder');
     });
+};
+
+// Callback writeHTML function and write newHTML input
+writeHTML(newHTML);
 };
 
 // Initialize application
