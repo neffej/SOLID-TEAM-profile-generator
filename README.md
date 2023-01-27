@@ -26,6 +26,10 @@ This project uses Node and the Inquirer NPM, and it also utilizes the Jest testi
 3. Answer the prompts to provide information about your team members. 
 4. When you are done adding team members, a team profile HTML will be created in the dist folder. Copy that file to use it in another program!
 
+## Walkthrough Video
+
+- https://drive.google.com/file/d/1wmqswGvIL4LweJoXTg0hnQQxpfubw2a2/view
+
 ## License 
 This project is covered under the MIT license. To learn more about what this means, click the license button at the top. 
 
